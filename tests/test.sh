@@ -322,9 +322,9 @@ done
 
 docker tag docker-osx:catalina parleskull/docker-osx:latest
 
-for TEST_BUILD in "${TEST_BUILDS[@]}"; do
-    "${TEST_BUILD}"
-done
+# for TEST_BUILD in "${TEST_BUILDS[@]}"; do
+#     "${TEST_BUILD}"
+# done
 
 # boot each image and test
 # bash ./tests/boot-images.sh || exit 1

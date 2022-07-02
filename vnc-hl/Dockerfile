@@ -70,10 +70,10 @@
 # VNC Version
 # Let's piggyback the other image:
 
-ARG BASE_IMAGE=sickcodes/docker-osx:latest
+ARG BASE_IMAGE=parleskull/docker-osx:latest
 FROM ${BASE_IMAGE}
 
-MAINTAINER 'https://twitter.com/sickcodes' <https://sick.codes>
+MAINTAINER 'https://twitter.com/parleSkull' <https://sick.codes>
 
 USER root
 
@@ -83,7 +83,7 @@ ARG RANKMIRRORS
 ARG MIRROR_COUNTRY=US
 ARG MIRROR_COUNT=10
 RUN if [[ "${RANKMIRRORS}" ]]; then { pacman -Sy wget --noconfirm || pacman -Syu wget --noconfirm ; } \
-    ; wget -O ./rankmirrors "https://raw.githubusercontent.com/sickcodes/Docker-OSX/master/rankmirrors" \
+    ; wget -O ./rankmirrors "https://raw.githubusercontent.com/parleSkull/Docker-OSX/master/rankmirrors" \
     ; wget -O- "https://www.archlinux.org/mirrorlist/?country=${MIRROR_COUNTRY:-US}&protocol=https&use_mirror_status=on" \
     | sed -e 's/^#Server/Server/' -e '/^#/d' \
     | head -n "$((${MIRROR_COUNT:-10}+1))" \
