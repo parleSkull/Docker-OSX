@@ -320,7 +320,7 @@ for SHORTNAME in "${VERSION_BUILDS[@]}"; do
     docker-osx:version "${SHORTNAME}"
 done
 
-docker tag docker-osx:catalina parleskull/docker-osx:latest
+# docker tag docker-osx:catalina parleskull/docker-osx:latest
 
 # for TEST_BUILD in "${TEST_BUILDS[@]}"; do
 #     "${TEST_BUILD}"
