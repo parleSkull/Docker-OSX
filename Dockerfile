@@ -240,12 +240,21 @@ ENV LIBGUESTFS_PACKAGE_URL=https://archive.archlinux.org/packages/l/libguestfs/l
 # fix ad hoc errors from using the arch museum to get libguestfs
 RUN sudo sed -i -e 's/^\#RemoteFileSigLevel/RemoteFileSigLevel/g' /etc/pacman.conf
 
+# RUN sudo pacman -Syy \
+#     && sudo pacman -Rns linux --noconfirm \
+#     ; sudo pacman -S mkinitcpio --noconfirm \
+#     && sudo pacman -U "${KERNEL_PACKAGE_URL}" --noconfirm || exit 1 \
+#     && sudo pacman -U "${LIBGUESTFS_PACKAGE_URL}" --noconfirm || exit 1 \
+#     && rm -rf /var/tmp/.guestfs-* \
+#     && yes | sudo pacman -Scc \
+#     && libguestfs-test-tool || exit 1 \
+#     && rm -rf /var/tmp/.guestfs-*
+
 RUN sudo pacman -Syy \
     && sudo pacman -Rns linux --noconfirm \
     ; sudo pacman -S mkinitcpio --noconfirm \
     && sudo pacman -U "${KERNEL_PACKAGE_URL}" --noconfirm || exit 1 \
     && sudo pacman -U "${LIBGUESTFS_PACKAGE_URL}" --noconfirm || exit 1 \
-    && rm -rf /var/tmp/.guestfs-* \
     && yes | sudo pacman -Scc \
     && libguestfs-test-tool || exit 1 \
     && rm -rf /var/tmp/.guestfs-*
