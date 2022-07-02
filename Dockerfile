@@ -53,7 +53,7 @@
 
 # FROM archlinux:base-devel | base-devel-20220501.0.54834
 # NW: base-devel-20220213.0.47747 | base-devel-20220410.0.52530
-FROM archlinux:base-devel-20220501.0.54834
+FROM archlinux:base-devel
 LABEL maintainer='https://twitter.com/parleskull <https://sick.codes>'
 
 SHELL ["/bin/bash", "-c"]
