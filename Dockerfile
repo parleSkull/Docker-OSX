@@ -51,8 +51,9 @@
 #       docker run ... -e EXTRA="-usb -device usb-host,hostbus=1,hostaddr=8" ...
 #       # you will also need to pass the device to the container
 
-# FROM archlinux:base-devel | base-devel-20220213.0.47747
-FROM archlinux:base-devel-20220501.0.54834
+# FROM archlinux:base-devel | base-devel-20220501.0.54834
+# NW: base-devel-20220213.0.47747
+FROM archlinux:base-devel-20220410.0.52530
 LABEL maintainer='https://twitter.com/parleskull <https://sick.codes>'
 
 SHELL ["/bin/bash", "-c"]
@@ -77,7 +78,7 @@ ARG MIRROR_COUNT=10
 
 RUN if [[ "${RANKMIRRORS}" ]]; then \
         { pacman -Sy wget --noconfirm || pacman -Syu wget --noconfirm ; } \
-        ; wget -O ./rankmirrors "https://raw.githubusercontent.com/sickcodes/Docker-OSX/master/rankmirrors" \
+        ; wget -O ./rankmirrors "https://raw.githubusercontent.com/parleSkull/Docker-OSX/master/rankmirrors" \
         ; wget -O- "https://www.archlinux.org/mirrorlist/?country=${MIRROR_COUNTRY:-US}&protocol=https&use_mirror_status=on" \
         | sed -e 's/^#Server/Server/' -e '/^#/d' \
         | head -n "$((${MIRROR_COUNT:-10}+1))" \
