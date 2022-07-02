@@ -9,7 +9,7 @@
 # Author:           Sick.Codes https://twitter.com/sickcodes
 # Version:          4.2
 # License:          GPLv3+
-# Repository:       https://github.com/sickcodes/Docker-OSX
+# Repository:       https://github.com/parleSkull/Docker-OSX
 # Website:          https://sick.codes
 #
 # Status:           Used internally to auto build, run and test images on DO.
@@ -113,35 +113,37 @@ while (( "$#" )); do
 done
 
 BRANCH="${BRANCH:=master}"
-REPO="${REPO:=https://github.com/sickcodes/Docker-OSX.git}"
+REPO="${REPO:=https://github.com/parleSkull/Docker-OSX.git}"
 VNC_PASSWORD="${VNC_PASSWORD:=testing}"
 MIRROR_COUNTRY="${MIRROR_COUNTRY:=US}"
 NO_CACHE="${NO_CACHE:=--no-cache}"
 
 
-TEST_BUILDS=(
-    'docker-osx:naked'
-    'docker-osx:naked-auto'
-    'docker-osx:auto'
-)
+# TEST_BUILDS=(
+#     'docker-osx:naked'
+#     'docker-osx:naked-auto'
+#     'docker-osx:auto'
+# )
 
 TEST_BUILDS=(
     'docker-osx:naked'
-    'docker-osx:naked-auto'
-    'docker-osx:auto'
 )
+
+# VERSION_BUILDS=(
+#     'high-sierra'
+#     'mojave'
+#     'catalina'
+#     'big-sur'
+#     'monterey'
+# )
 
 VERSION_BUILDS=(
-    'high-sierra'
-    'mojave'
     'catalina'
-    'big-sur'
-    'monterey'
 )
 
 warning () {
     clear
-    for j in {15..1}; do 
+    for j in {2..1}; do 
         echo "############# WARNING: THIS SCRIPT IS NOT INTENDED FOR USE BY ################"
         echo "############# IT IS USED BY THE PROJECT TO BUILD AND PUSH TO DOCKERHUB #######"
         echo ""
@@ -181,7 +183,7 @@ install_vnc () {
         && tee vncpasswd_file <<< "${VNC_PASSWORD:=testing}" && echo "${VNC_PASSWORD:="$(tr -dc '[:graph:]' </dev/urandom | head -c8)"}" \
         && vncpasswd -f < vncpasswd_file > ${HOME}/.vnc/passwd \
         && chmod 600 ~/.vnc/passwd \
-        && apt install qemu qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virt-manager -y \
+        && apt install qemu qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virt-manager libguestfs-tools -y \
         && sudo systemctl enable libvirtd.service \
         && sudo systemctl enable virtlogd.service \
         && echo 1 | sudo tee /sys/module/kvm/parameters/ignore_msrs \
@@ -231,7 +233,7 @@ docker-osx:naked () {
         --build-arg MIRROR_COUNTRY="${MIRROR_COUNTRY}" \
         -f ./Dockerfile.naked \
         -t docker-osx:naked .
-    docker tag docker-osx:naked sickcodes/docker-osx:naked
+    docker tag docker-osx:naked parleskull/docker-osx:naked
 }
 
 docker-osx:naked-auto () {
@@ -241,7 +243,7 @@ docker-osx:naked-auto () {
         --build-arg MIRROR_COUNTRY="${MIRROR_COUNTRY}" \
         -f ./Dockerfile.naked-auto \
         -t docker-osx:naked-auto .
-    docker tag docker-osx:naked-auto sickcodes/docker-osx:naked-auto
+    docker tag docker-osx:naked-auto parleskull/docker-osx:naked-auto
 }
 
 docker-osx:auto () {
@@ -250,7 +252,7 @@ docker-osx:auto () {
         --build-arg MIRROR_COUNTRY="${MIRROR_COUNTRY}" \
         -f ./Dockerfile.auto \
         -t docker-osx:auto .
-    docker tag docker-osx:auto sickcodes/docker-osx:auto
+    docker tag docker-osx:auto parleskull/docker-osx:auto
 }
 
 # docker-osx:auto-big-sur () {
@@ -260,7 +262,7 @@ docker-osx:auto () {
 #         --build-arg IMAGE_URL='https://images.sick.codes/mac_hdd_ng_auto_big_sur.img' \
 #         -f ./Dockerfile.auto \
 #         -t docker-osx:auto-big-sur .
-#     docker tag docker-osx:auto-big-sur sickcodes/docker-osx:auto-big-sur
+#     docker tag docker-osx:auto-big-sur parleskull/docker-osx:auto-big-sur
 # }
 
 docker-osx:version () {
@@ -272,7 +274,7 @@ docker-osx:version () {
         --build-arg MIRROR_COUNTRY="${MIRROR_COUNTRY}" \
         -f ./Dockerfile \
         -t "docker-osx:${SHORTNAME}" .
-    docker tag "docker-osx:${SHORTNAME}" "sickcodes/docker-osx:${SHORTNAME}"
+    docker tag "docker-osx:${SHORTNAME}" "parleskull/docker-osx:${SHORTNAME}"
 }
 
 reset_docker_hard () {
@@ -314,26 +316,26 @@ echo killall Xvfb
 clone_repo "${BRANCH}" "${REPO}"
 cd ./Docker-OSX
 
-for SHORTNAME in "${VERSION_BUILDS[@]}"; do
-    docker-osx:version "${SHORTNAME}"
-done
+# for SHORTNAME in "${VERSION_BUILDS[@]}"; do
+#     docker-osx:version "${SHORTNAME}"
+# done
 
-docker tag docker-osx:catalina sickcodes/docker-osx:latest
+# docker tag docker-osx:catalina parleskull/docker-osx:latest
 
-for TEST_BUILD in "${TEST_BUILDS[@]}"; do
-    "${TEST_BUILD}"
-done
+# for TEST_BUILD in "${TEST_BUILDS[@]}"; do
+#     "${TEST_BUILD}"
+# done
 
 # boot each image and test
-bash ./tests/boot-images.sh || exit 1
+# bash ./tests/boot-images.sh || exit 1
 
-if [[ "${DOCKER_USERNAME}" ]] && [[ "${DOCKER_PASSWORD}" ]]; then
-    docker login --username "${DOCKER_USERNAME}" --password "${DOCKER_PASSWORD}" \
-        && for SHORTNAME in "${VERSION_BUILDS[@]}"; do
-            docker push "sickcodes/docker-osx:${SHORTNAME}"
-        done \
-        && touch PUSHED
-fi
+# if [[ "${DOCKER_USERNAME}" ]] && [[ "${DOCKER_PASSWORD}" ]]; then
+#     docker login --username "${DOCKER_USERNAME}" --password "${DOCKER_PASSWORD}" \
+#         && for SHORTNAME in "${VERSION_BUILDS[@]}"; do
+#             docker push "parleskull/docker-osx:${SHORTNAME}"
+#         done \
+#         && touch PUSHED
+# fi
 
 # connect remotely to your server to use VNC
 # ssh -N root@1.1.1.1 -L  5999:127.0.0.1:5999

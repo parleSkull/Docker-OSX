@@ -6,10 +6,10 @@
 # /_____/\____/\___/_/|_|\___/_/   \____//____/_/|_|
 #
 # Title:            Docker-OSX (Mac on Docker)
-# Author:           Sick.Codes https://twitter.com/sickcodes
+# Author:           Sick.Codes https://twitter.com/parleSkull
 # Version:          6.0
 # License:          GPLv3+
-# Repository:       https://github.com/sickcodes/Docker-OSX
+# Repository:       https://github.com/parleSkull/Docker-OSX
 # Website:          https://sick.codes
 #
 # All credits for OSX-KVM and the rest at @Kholia's repo: https://github.com/kholia/osx-kvm
@@ -27,11 +27,11 @@
 #
 # Basic Run:
 #
-#       docker run --device /dev/kvm --device /dev/snd -v /tmp/.X11-unix:/tmp/.X11-unix -e "DISPLAY=${DISPLAY:-:0.0}" sickcodes/docker-osx:latest
+#       docker run --device /dev/kvm --device /dev/snd -v /tmp/.X11-unix:/tmp/.X11-unix -e "DISPLAY=${DISPLAY:-:0.0}" parleskull/docker-osx:latest
 #
 # Run with SSH:
 #
-#       docker run --device /dev/kvm --device /dev/snd -e RAM=6 -p 50922:10022 -v /tmp/.X11-unix:/tmp/.X11-unix -e "DISPLAY=${DISPLAY:-:0.0}" sickcodes/docker-osx:latest
+#       docker run --device /dev/kvm --device /dev/snd -e RAM=6 -p 50922:10022 -v /tmp/.X11-unix:/tmp/.X11-unix -e "DISPLAY=${DISPLAY:-:0.0}" parleskull/docker-osx:latest
 #       # ssh fullname@localhost -p 50922
 #
 # Optargs:
@@ -51,8 +51,9 @@
 #       docker run ... -e EXTRA="-usb -device usb-host,hostbus=1,hostaddr=8" ...
 #       # you will also need to pass the device to the container
 
-FROM archlinux:base-devel
-LABEL maintainer='https://twitter.com/sickcodes <https://sick.codes>'
+# FROM archlinux:base-devel
+FROM archlinux:base-devel-20220213.0.47747
+LABEL maintainer='https://twitter.com/parleskull <https://sick.codes>'
 
 SHELL ["/bin/bash", "-c"]
 
@@ -69,7 +70,7 @@ ARG MIRROR_COUNT=10
 
 RUN if [[ "${RANKMIRRORS}" ]]; then \
         { pacman -Sy wget --noconfirm || pacman -Syu wget --noconfirm ; } \
-        ; wget -O ./rankmirrors "https://raw.githubusercontent.com/sickcodes/Docker-OSX/master/rankmirrors" \
+        ; wget -O ./rankmirrors "https://raw.githubusercontent.com/parleSkull/Docker-OSX/master/rankmirrors" \
         ; wget -O- "https://www.archlinux.org/mirrorlist/?country=${MIRROR_COUNTRY:-US}&protocol=https&use_mirror_status=on" \
         | sed -e 's/^#Server/Server/' -e '/^#/d' \
         | head -n "$((${MIRROR_COUNT:-10}+1))" \
@@ -162,7 +163,7 @@ RUN if [[ "${LINUX}" == true ]]; then \
 
 # optional --build-arg to change branches for testing
 ARG BRANCH=master
-ARG REPO='https://github.com/sickcodes/Docker-OSX.git'
+ARG REPO='https://github.com/parleSkull/Docker-OSX.git'
 # RUN git clone --recurse-submodules --depth 1 --branch "${BRANCH}" "${REPO}"
 RUN git clone --recurse-submodules --depth 1 --branch "${BRANCH}" "${REPO}"
 
@@ -255,8 +256,8 @@ ARG STOCK_UUID=007076A6-F2A2-4461-BBE5-BAD019F8025A
 ARG STOCK_MAC_ADDRESS=00:0A:27:00:00:00
 ARG STOCK_WIDTH=1920
 ARG STOCK_HEIGHT=1080
-ARG STOCK_MASTER_PLIST_URL=https://raw.githubusercontent.com/sickcodes/osx-serial-generator/master/config-custom.plist
-ARG STOCK_MASTER_PLIST_URL_NOPICKER=https://raw.githubusercontent.com/sickcodes/osx-serial-generator/master/config-nopicker-custom.plist
+ARG STOCK_MASTER_PLIST_URL=https://raw.githubusercontent.com/parleSkull/osx-serial-generator/master/config-custom.plist
+ARG STOCK_MASTER_PLIST_URL_NOPICKER=https://raw.githubusercontent.com/parleSkull/osx-serial-generator/master/config-nopicker-custom.plist
 ARG STOCK_BOOTDISK=/home/arch/OSX-KVM/OpenCore/OpenCore.qcow2
 ARG STOCK_BOOTDISK_NOPICKER=/home/arch/OSX-KVM/OpenCore/OpenCore-nopicker.qcow2
 
@@ -323,7 +324,7 @@ ENV IMAGE_FORMAT=qcow2
 
 ENV KVM='accel=kvm:tcg'
 
-ENV MASTER_PLIST_URL="https://raw.githubusercontent.com/sickcodes/osx-serial-generator/master/config-custom.plist"
+ENV MASTER_PLIST_URL="https://raw.githubusercontent.com/parleSkull/osx-serial-generator/master/config-custom.plist"
 
 # ENV NETWORKING=e1000-82545em
 ENV NETWORKING=vmxnet3

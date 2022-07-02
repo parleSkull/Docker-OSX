@@ -1,10 +1,10 @@
 #!/bin/bash
-# Author:       Sick.Codes https://twitter.com/sickcodes
-# Contact:      https://github.com/sickcodes, https://sick.codes
+# Author:       Sick.Codes https://twitter.com/parleSkull
+# Contact:      https://github.com/parleSkull, https://sick.codes
 # Copyright:    sickcodes (C) 2021
 # License:      GPLv3+
 # Title:        Docker-OSX (Mac on Docker)
-# Repository:   https://github.com/sickcodes/Docker-OSX
+# Repository:   https://github.com/parleSkull/Docker-OSX
 # Website:      https://sick.codes
 #
 # Status:       Used internally to run each image and take screenshots until they match the pngs in this folder.
@@ -38,10 +38,10 @@ for TEST in "${TESTS[@]}"; do
         --device /dev/kvm \
         -v /tmp/.X11-unix:/tmp/.X11-unix \
         -e "DISPLAY=:99" \
-        "sickcodes/docker-osx:${TEST}"
+        "parleskull/docker-osx:${TEST}"
 
     # imcat the expected test screenshot to ./"${TEST}_master.txt" 
-    imcat ~/Docker-OSX/tests/${TEST}_master.png > ./"${TEST}_master.txt"
+    imcat ~/air-tag-pro/Docker-OSX/tests/${TEST}_master.png > ./"${TEST}_master.txt"
 
     # run until the screen matches the expected screen
     while :; do
