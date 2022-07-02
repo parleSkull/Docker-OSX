@@ -274,7 +274,7 @@ docker-osx:version () {
         --build-arg MIRROR_COUNTRY="${MIRROR_COUNTRY}" \
         -f ./Dockerfile \
         -t "docker-osx:${SHORTNAME}" .
-    docker tag "docker-osx:${SHORTNAME}" "parleskull/docker-osx:${SHORTNAME}"
+    # docker tag "docker-osx:${SHORTNAME}" "parleskull/docker-osx:${SHORTNAME}"
 }
 
 reset_docker_hard () {

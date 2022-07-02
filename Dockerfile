@@ -51,26 +51,33 @@
 #       docker run ... -e EXTRA="-usb -device usb-host,hostbus=1,hostaddr=8" ...
 #       # you will also need to pass the device to the container
 
-# FROM archlinux:base-devel
-FROM archlinux:base-devel-20220213.0.47747
+# FROM archlinux:base-devel | base-devel-20220213.0.47747
+FROM archlinux:base-devel-20220501.0.54834
 LABEL maintainer='https://twitter.com/parleskull <https://sick.codes>'
 
 SHELL ["/bin/bash", "-c"]
 
 # change disk size here or add during build, e.g. --build-arg VERSION=10.14.5 --build-arg SIZE=50G
-ARG SIZE=70G
+ARG SIZE=100G
 
 # OPTIONAL: Arch Linux server mirrors for super fast builds
 # set RANKMIRRORS to any value other that nothing, e.g. -e RANKMIRRORS=true
 
+# might have to remove on base img update
+# RUN yes | sudo pacman-key --init
+# RUN yes | sudo pacman-key --populate archlinux
+# RUN yes | sudo pacman -Sy glibc lib32-glibc 
+# the first two lines helped me fix PGP signature errors
+# the third line was to fix "version `GLIBC_2.34' not found" error
+
 RUN perl -i -p -e s/^\#Color/Color$'\n'ParallelDownloads\ =\ 30/g /etc/pacman.conf 
-ARG RANKMIRRORS
+ARG RANKMIRRORS=true
 ARG MIRROR_COUNTRY=US
 ARG MIRROR_COUNT=10
 
 RUN if [[ "${RANKMIRRORS}" ]]; then \
         { pacman -Sy wget --noconfirm || pacman -Syu wget --noconfirm ; } \
-        ; wget -O ./rankmirrors "https://raw.githubusercontent.com/parleSkull/Docker-OSX/master/rankmirrors" \
+        ; wget -O ./rankmirrors "https://raw.githubusercontent.com/sickcodes/Docker-OSX/master/rankmirrors" \
         ; wget -O- "https://www.archlinux.org/mirrorlist/?country=${MIRROR_COUNTRY:-US}&protocol=https&use_mirror_status=on" \
         | sed -e 's/^#Server/Server/' -e '/^#/d' \
         | head -n "$((${MIRROR_COUNT:-10}+1))" \
