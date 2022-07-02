@@ -126,7 +126,7 @@ NO_CACHE="${NO_CACHE:=--no-cache}"
 # )
 
 TEST_BUILDS=(
-    'docker-osx:naked'
+    'docker-osx:auto'
 )
 
 # VERSION_BUILDS=(
@@ -138,6 +138,7 @@ TEST_BUILDS=(
 # )
 
 VERSION_BUILDS=(
+    'high-sierra'
     'catalina'
 )
 
@@ -322,9 +323,9 @@ cd ./Docker-OSX
 
 # docker tag docker-osx:catalina parleskull/docker-osx:latest
 
-# for TEST_BUILD in "${TEST_BUILDS[@]}"; do
-#     "${TEST_BUILD}"
-# done
+for TEST_BUILD in "${TEST_BUILDS[@]}"; do
+    "${TEST_BUILD}"
+done
 
 # boot each image and test
 # bash ./tests/boot-images.sh || exit 1

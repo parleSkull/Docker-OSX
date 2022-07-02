@@ -6,10 +6,10 @@
 # /_____/\____/\___/_/|_|\___/_/   \____//____/_/|_|  :AUTO
 # 
 # Title:            Docker-OSX (Mac on Docker)
-# Author:           Sick.Codes https://twitter.com/sickcodes
+# Author:           Sick.Codes https://twitter.com/parleSkull
 # Version:          6.0
 # License:          GPLv3+
-# Repository:       https://github.com/sickcodes/Docker-OSX
+# Repository:       https://github.com/parleSkull/Docker-OSX
 # Website:          https://sick.codes
 # 
 # This Dockerfile is a pre-installed naked installation of Docker-OSX!
@@ -40,9 +40,9 @@
 #           ssh localhost user@127.0.0.1 -p 50922
 #           docker exec -it containerid ssh -i ~/.ssh/id_docker_osx user@127.0.0.1 -p 10022
 
-FROM sickcodes/docker-osx:latest
+FROM parleskull/docker-osx:latest
 
-MAINTAINER 'https://twitter.com/sickcodes' <https://sick.codes>
+MAINTAINER 'https://twitter.com/parleSkull' <https://sick.codes>
 
 USER root
 
@@ -59,7 +59,7 @@ ARG MIRROR_COUNT=10
 
 RUN if [[ "${RANKMIRRORS}" ]]; then \
         { pacman -Sy wget --noconfirm || pacman -Syu wget --noconfirm ; } \
-        ; wget -O ./rankmirrors "https://raw.githubusercontent.com/sickcodes/Docker-OSX/master/rankmirrors" \
+        ; wget -O ./rankmirrors "https://raw.githubusercontent.com/parleSkull/Docker-OSX/master/rankmirrors" \
         ; wget -O- "https://www.archlinux.org/mirrorlist/?country=${MIRROR_COUNTRY:-US}&protocol=https&use_mirror_status=on" \
         | sed -e 's/^#Server/Server/' -e '/^#/d' \
         | head -n "$((${MIRROR_COUNT:-10}+1))" \
@@ -186,7 +186,7 @@ ENV IMAGE_FORMAT=qcow2
 
 ENV KVM='accel=kvm:tcg'
 
-# ENV MASTER_PLIST_URL="https://raw.githubusercontent.com/sickcodes/osx-serial-generator/master/config-custom.plist"
+# ENV MASTER_PLIST_URL="https://raw.githubusercontent.com/parleSkull/osx-serial-generator/master/config-custom.plist"
 
 # ENV NETWORKING=e1000-82545em
 ENV NETWORKING=vmxnet3
@@ -213,7 +213,7 @@ ENV LIBGUESTFS_TRACE=1
 
 ENV TERMS_OF_USE=i_agree
 
-ENV BOILERPLATE="By using this Dockerfile, you hereby agree that you are a security reseacher or developer and agree to use this Dockerfile to make the world a safer place. Examples include: making your apps safer, finding your mobile phone, compiling security products, etc. You understand that Docker-OSX is an Open Source project, which is released to the public under the GNU Pulic License version 3 and above. You acknowledge that the Open Source project is absolutely unaffiliated with any third party, in any form whatsoever. Any trademarks or intelectual property which happen to be mentioned anywhere in or around the project are owned by their respective owners. By using this Dockerfile, you agree to agree to the EULA of each piece of upstream or downstream software. The following code is released for the sole purpose of security research, under the GNU Public License version 3. If you are concerned about the licensing, please note that this project is not AGPL. A copy of the license is available online: https://github.com/sickcodes/Docker-OSX/blob/master/LICENSE. In order to use the following Dockerfile you must read and understand the terms. Once you have read the terms, use the -e TERMS_OF_USE=i_agree or -e TERMS_OF_USE=i_disagree"
+ENV BOILERPLATE="By using this Dockerfile, you hereby agree that you are a security reseacher or developer and agree to use this Dockerfile to make the world a safer place. Examples include: making your apps safer, finding your mobile phone, compiling security products, etc. You understand that Docker-OSX is an Open Source project, which is released to the public under the GNU Pulic License version 3 and above. You acknowledge that the Open Source project is absolutely unaffiliated with any third party, in any form whatsoever. Any trademarks or intelectual property which happen to be mentioned anywhere in or around the project are owned by their respective owners. By using this Dockerfile, you agree to agree to the EULA of each piece of upstream or downstream software. The following code is released for the sole purpose of security research, under the GNU Public License version 3. If you are concerned about the licensing, please note that this project is not AGPL. A copy of the license is available online: https://github.com/parleSkull/Docker-OSX/blob/master/LICENSE. In order to use the following Dockerfile you must read and understand the terms. Once you have read the terms, use the -e TERMS_OF_USE=i_agree or -e TERMS_OF_USE=i_disagree"
 
 CMD echo "${BOILERPLATE}" \
     ; [[ "${TERMS_OF_USE}" = i_agree ]] || exit 1 \
@@ -282,7 +282,7 @@ CMD echo "${BOILERPLATE}" \
 # username: user
 # password: alpine
 # screenshot: docker exec -it containerid scrotcat
-# readme: https://github.com/sickcodes/Docker-OSX
+# readme: https://github.com/parleSkull/Docker-OSX
 # timezone: UTC/GMT
 
 # Future case option when supplying IMAGE_PATH:
