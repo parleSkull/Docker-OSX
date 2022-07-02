@@ -254,11 +254,11 @@ RUN sudo pacman -Syy \
     && sudo pacman -Rns linux --noconfirm \
     ; sudo pacman -S mkinitcpio --noconfirm \
     && sudo pacman -U "${KERNEL_PACKAGE_URL}" --noconfirm \
-    && sudo pacman -U "${LIBGUESTFS_PACKAGE_URL}" --noconfirm \
     && rm -rf /var/tmp/.guestfs-* \
     ; libguestfs-test-tool || exit 1
 
 ####
+# && sudo pacman -U "${LIBGUESTFS_PACKAGE_URL}" --noconfirm \
 
 # These are hardcoded serials for non-iMessage related research
 # Overwritten by using GENERATE_UNIQUE=true
