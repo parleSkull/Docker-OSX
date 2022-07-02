@@ -253,11 +253,10 @@ RUN sudo sed -i -e 's/^\#RemoteFileSigLevel/RemoteFileSigLevel/g' /etc/pacman.co
 RUN sudo pacman -Syy \
     && sudo pacman -Rns linux --noconfirm \
     ; sudo pacman -S mkinitcpio --noconfirm \
-    && sudo pacman -U "${KERNEL_PACKAGE_URL}" --noconfirm || exit 1 \
-    && sudo pacman -U "${LIBGUESTFS_PACKAGE_URL}" --noconfirm || exit 1 \
-    && yes | sudo pacman -Scc \
-    && libguestfs-test-tool || exit 1 \
-    && rm -rf /var/tmp/.guestfs-*
+    && sudo pacman -U "${KERNEL_PACKAGE_URL}" --noconfirm \
+    && sudo pacman -U "${LIBGUESTFS_PACKAGE_URL}" --noconfirm \
+    && rm -rf /var/tmp/.guestfs-* \
+    ; libguestfs-test-tool || exit 1
 
 ####
 
