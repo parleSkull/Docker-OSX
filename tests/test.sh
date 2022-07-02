@@ -138,7 +138,6 @@ TEST_BUILDS=(
 # )
 
 VERSION_BUILDS=(
-    'high-sierra'
     'catalina'
 )
 
@@ -317,11 +316,11 @@ echo killall Xvfb
 clone_repo "${BRANCH}" "${REPO}"
 cd ./Docker-OSX
 
-# for SHORTNAME in "${VERSION_BUILDS[@]}"; do
-#     docker-osx:version "${SHORTNAME}"
-# done
+for SHORTNAME in "${VERSION_BUILDS[@]}"; do
+    docker-osx:version "${SHORTNAME}"
+done
 
-# docker tag docker-osx:catalina parleskull/docker-osx:latest
+docker tag docker-osx:catalina parleskull/docker-osx:latest
 
 for TEST_BUILD in "${TEST_BUILDS[@]}"; do
     "${TEST_BUILD}"
