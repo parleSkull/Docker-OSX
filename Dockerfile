@@ -154,7 +154,7 @@ RUN touch enable-ssh.sh \
 
 RUN yes | sudo pacman -Sy extra/jack2
 
-RUN yes | sudo pacman -Syu bc qemu libvirt dnsmasq virt-manager bridge-utils openresolv ebtables edk2-ovmf netctl libvirt-dbus
+RUN yes | sudo pacman -Syu bc extra/qemu-base libvirt dnsmasq virt-manager bridge-utils openresolv ebtables edk2-ovmf netctl libvirt-dbus
 
 WORKDIR /home/arch/OSX-KVM
 
