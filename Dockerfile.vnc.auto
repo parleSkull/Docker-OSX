@@ -73,7 +73,7 @@
 ARG BASE_IMAGE=parleskull/docker-osx:latest
 FROM ${BASE_IMAGE}
 
-MAINTAINER 'https://twitter.com/parleSkull' <https://sick.codes>
+LABEL maintainer 'https://twitter.com/parleSkull'
 
 USER root
 

@@ -54,7 +54,8 @@
 # FROM archlinux:base-devel | base-devel-20220501.0.54834
 # NW: base-devel-20220213.0.47747 | base-devel-20220410.0.52530
 FROM archlinux:base-devel
-LABEL maintainer='https://twitter.com/parleskull <https://sick.codes>'
+
+LABEL maintainer 'https://twitter.com/parleSkull'
 
 SHELL ["/bin/bash", "-c"]
 
@@ -258,7 +259,9 @@ RUN sudo pacman -Syy \
     ; libguestfs-test-tool || exit 1
 
 # was breaking build
-# && sudo pacman -U "${LIBGUESTFS_PACKAGE_URL}" --noconfirm \
+# && sudo pacman -U "${LIBGUESTFS_PACKAGE_URL}" --noconfirm
+# might have to append this
+# && rm -rf /var/tmp/.guestfs-*
 ####
 
 # These are hardcoded serials for non-iMessage related research

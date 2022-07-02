@@ -38,11 +38,11 @@
 # 
 #       From outside the container:
 #           ssh localhost user@127.0.0.1 -p 50922
-#           docker exec -it containerid ssh -i ~/.ssh/id_docker_osx user@127.0.0.1 -p 10022
+#           docker exec -it <containerid> ssh -i ~/.ssh/id_docker_osx user@127.0.0.1 -p 10022
 
 FROM parleskull/docker-osx:latest
 
-MAINTAINER 'https://twitter.com/parleSkull' <https://sick.codes>
+LABEL maintainer 'https://twitter.com/parleSkull'
 
 USER root
 
@@ -111,12 +111,13 @@ RUN sudo pacman -Syy \
     && sudo pacman -Rns linux --noconfirm \
     ; sudo pacman -S mkinitcpio --noconfirm \
     && sudo pacman -U "${KERNEL_PACKAGE_URL}" --noconfirm || exit 1 \
-    && sudo pacman -U "${LIBGUESTFS_PACKAGE_URL}" --noconfirm || exit 1 \
     && rm -rf /var/tmp/.guestfs-* \
     && yes | sudo pacman -Scc \
     && libguestfs-test-tool || exit 1 \
     && rm -rf /var/tmp/.guestfs-*
 
+# likely to break build
+# && sudo pacman -U "${LIBGUESTFS_PACKAGE_URL}" --noconfirm || exit 1 \
 ####
 
 
@@ -186,7 +187,7 @@ ENV IMAGE_FORMAT=qcow2
 
 ENV KVM='accel=kvm:tcg'
 
-# ENV MASTER_PLIST_URL="https://raw.githubusercontent.com/parleSkull/osx-serial-generator/master/config-custom.plist"
+# ENV MASTER_PLIST_URL="https://raw.githubusercontent.com/sickcodes/osx-serial-generator/master/config-custom.plist"
 
 # ENV NETWORKING=e1000-82545em
 ENV NETWORKING=vmxnet3
